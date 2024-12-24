@@ -1,0 +1,26 @@
+<div class="task-list">
+    <h2>Task List</h2>
+    <div *ngFor="let task of tasks$ | async" class="task-item">
+      <ng-container *ngIf="editingTaskId === task.id; else displayMode">
+        <input [(ngModel)]="updatedTitle" placeholder="Edit task title" />
+        <textarea
+          [(ngModel)]="updatedDescription"
+          placeholder="Edit task description"
+        ></textarea>
+        <button (click)="saveEdit(task)">Save</button>
+        <button (click)="cancelEdit()">Cancel</button>
+      </ng-container>
+  
+      <ng-template #displayMode>
+        <h3>{{ task.title }}</h3>
+        <p>{{ task.description }}</p>
+        <p>Status: {{ task.status }}</p>
+        <button (click)="markAsCompleted(task)" *ngIf="task.status === 'pending'">
+          Complete
+        </button>
+        <button (click)="startEditing(task)">Edit</button>
+        <button (click)="removeTask(task.id)">Delete</button>
+      </ng-template>
+    </div>
+  </div>
+  
